@@ -124,8 +124,14 @@ async def main() -> None:
     )
 
     _LOGGER.info("Loading Kokoro model …")
+    import os
+    os.environ.setdefault("OMP_NUM_THREADS", "4")
     from kokoro_onnx import Kokoro
     kokoro = Kokoro(args.model, args.voices)
+    _LOGGER.info("Pre-warming model …")
+    await asyncio.get_event_loop().run_in_executor(
+        None, lambda: kokoro.create("Hello.", voice=DEFAULT_VOICE, speed=1.0, lang="en-gb")
+    )
     _LOGGER.info("Model ready. Listening on %s", args.uri)
 
     info = _wyoming_info()
