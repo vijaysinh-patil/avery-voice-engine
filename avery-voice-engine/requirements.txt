@@ -1,0 +1,5 @@
+wyoming>=1.5.4
+kokoro-onnx>=0.4.0
+espeakng-loader
+onnxruntime
+numpy
