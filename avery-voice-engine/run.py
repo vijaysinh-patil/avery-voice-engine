@@ -86,6 +86,7 @@ def _wyoming_info() -> Info:
                     url="https://github.com/hexgrad/kokoro",
                 ),
                 installed=True,
+                version="1.0",
                 voices=[
                     TtsVoice(
                         name=vid,
