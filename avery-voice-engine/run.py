@@ -10,7 +10,7 @@ import numpy as np
 
 from wyoming.audio import AudioChunk, AudioStart, AudioStop
 from wyoming.event import Event
-from wyoming.info import Attribution, Info, TtsProgram, TtsVoice
+from wyoming.info import Attribution, Describe, Info, TtsProgram, TtsVoice
 from wyoming.server import AsyncServer, AsyncEventHandler
 from wyoming.tts import Synthesize
 
@@ -35,12 +35,16 @@ ACCENT_LANG   = {"b": "en-gb", "a": "en-us"}
 
 
 class KokoroEventHandler(AsyncEventHandler):
-    def __init__(self, *args, kokoro, speed: float = 1.0, **kwargs):
+    def __init__(self, *args, kokoro, speed: float = 1.0, wyoming_info: Info, **kwargs):
         super().__init__(*args, **kwargs)
         self._kokoro = kokoro
         self._speed  = speed
+        self._info   = wyoming_info
 
     async def handle_event(self, event: Event) -> bool:
+        if Describe.is_type(event.type):
+            await self.write_event(self._info.event())
+            return True
         if not Synthesize.is_type(event.type):
             return True
 
@@ -92,8 +96,8 @@ def _wyoming_info() -> Info:
                         name=vid,
                         description=v["display"],
                         installed=True,
-                        version="1.0",
                         languages=[v["lang"]],
+                        version="1.0",
                         attribution=Attribution(
                             name="hexgrad", url="https://github.com/hexgrad/kokoro"
                         ),
@@ -124,10 +128,10 @@ async def main() -> None:
     kokoro = Kokoro(args.model, args.voices)
     _LOGGER.info("Model ready. Listening on %s", args.uri)
 
+    info = _wyoming_info()
     server = AsyncServer.from_uri(args.uri)
     await server.run(
-        partial(KokoroEventHandler, kokoro=kokoro, speed=args.speed),
-        _wyoming_info(),
+        partial(KokoroEventHandler, kokoro=kokoro, speed=args.speed, wyoming_info=info),
     )
 
 
