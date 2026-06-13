@@ -16,4 +16,4 @@ options:
   speed: 1.0
 schema:
   speed: float
-image: "ghcr.io/vijaysinh-patil/avery-voice-engine:{version}"
+image: "ghcr.io/vijaysinh-patil/avery-voice-engine"
