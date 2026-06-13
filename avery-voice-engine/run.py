@@ -91,6 +91,7 @@ def _wyoming_info() -> Info:
                         name=vid,
                         description=v["display"],
                         installed=True,
+                        version="1.0",
                         languages=[v["lang"]],
                         attribution=Attribution(
                             name="hexgrad", url="https://github.com/hexgrad/kokoro"
