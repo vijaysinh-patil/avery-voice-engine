@@ -1,3 +1,9 @@
+## 1.0.1
+
+- Perf: pre-warm model at startup so first request is fast
+- Perf: set OMP_NUM_THREADS=4 to use all CPU cores
+- CI: Docker image now tagged with version from config.yaml (enables HA update button)
+
 ## 1.0.0
 
 - Initial release

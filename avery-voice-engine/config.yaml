@@ -1,6 +1,6 @@
 name: "Avery Voice Engine"
 description: "Local Kokoro-82M neural TTS engine using the Wyoming protocol. Install this add-on then add the Wyoming integration pointing to port 10200."
-version: "1.0.0"
+version: "1.0.1"
 slug: "avery_voice_engine"
 init: false
 arch:
